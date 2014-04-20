@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tartare - An awesome way to render mixed content in a responsive grid Test Suite</title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Load local jQuery. -->
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <!-- Load local lib and tests. -->
+  <script src="../src/tartare.js"></script>
+
+  <script>
+    var items = [
+      {
+        text: 'Foot',
+        image: 'http://distilleryimage2.s3.amazonaws.com/114b9722c87d11e380e00002c954e192_8.jpg'
+      },
+      {
+        text: 'Darwin',
+        image: 'http://distilleryimage6.s3.amazonaws.com/af526f98c7c111e386540002c9d4e906_6.jpg'
+      },
+      {
+        text: 'Clothes',
+        image: 'http://origincache-prn.fbcdn.net/924314_256586044524096_1484980217_a.jpg'
+      },
+      {
+        text: 'The Road to SF',
+        image: 'http://distilleryimage4.s3.amazonaws.com/f110530aac3c11e3a805125842f3867c_6.jpg'
+      },
+      {
+        text: 'Italia',
+        image: 'http://distilleryimage2.s3.amazonaws.com/fdc03546ad1f11e394f212fe06fbf87e_6.jpg'
+      },
+      {
+        text: 'Cat',
+        image: 'http://distilleryimage8.s3.amazonaws.com/7b4478a06f1411e3b4cb0a0d88bf3520_6.jpg'
+      },
+      {
+        text: 'Azendoo',
+        image: 'http://distilleryimage8.s3.amazonaws.com/62a2f416b74e11e39abd12c1b09be448_8.jpg'
+      },
+      {
+        text: 'Whisky',
+        image: 'http://distilleryimage7.s3.amazonaws.com/5c267d304f1411e3aecf0ac913b3a2f4_6.jpg'
+      },
+      {
+        text: 'Steak',
+        image: 'http://distilleryimage10.s3.amazonaws.com/224bddc6abb211e3870f1228c6f2a262_6.jpg'
+      },
+      {
+        text: 'DEVELOPER',
+        image: 'http://origincache-prn.fbcdn.net/1172000_701055653274694_901094109_a.jpg'
+      },
+      {
+        text: 'Ribs',
+        image: 'http://distilleryimage2.s3.amazonaws.com/0b56d7c2b13b11e3b1521292f891e046_6.jpg'
+      }
+    ];
+
+    var itemTemplate = function(obj){
+      str  = '<li class="grid-item">';
+      if(obj.image) {
+        str += "<div class=\"image\" style='background-image:url(\"" + obj.image +"\")'></div>";
+      };
+      str += "<div class=\"title\">" + obj.text + "</div>";
+      str += '</li>';
+
+      return str;
+    };
+
+    $(function(){
+      // Bind change event on input
+      var $container = $('ul.grid');
+      var $range = $('input[type="range"]');
+
+      $range.on('change', function(){
+        width = $range.val();
+        $('#range-value').html(width + '%');
+        $container.css('width', width + '%');
+        $container.tartare();
+      });
+
+      // Generate items example
+      $.each(items, function(i, v){
+        $container.append( itemTemplate(v) );
+      });
+
+      // Init tartare plugin
+      $container.tartare();
+    });
+  </script>
+
+  <style type="text/css" media="screen">
+    body {
+      font-family: "Helvetica Neue", "sans-serif";
+      padding: 0px;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+    }
+
+    header {
+      text-align: center;
+/*      background: url('images/background-header.png');
+      color: #ffffff;*/
+      padding: 0 20px;
+      text-transform: uppercase;
+      line-height: 60px;
+    }
+
+    header h1 {
+      border-bottom: 5px solid #FF0000;
+      display: inline-block;
+    }
+
+    header h1, header h4 {
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    section {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px 40px;
+    }
+
+    .form-control {
+      height: auto;
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+
+    ul.grid {
+      display: block;
+      width: 100%;
+      list-style: none;
+      padding: 0;
+      position: relative;
+    }
+
+    ul.grid li.grid-item {
+      width: 140px;
+      height: 180px;
+      float: left;
+      display: inline-block;
+      border: 1px solid #D0D0D0;
+      box-shadow: 0 1px 2px #D0D0D0;
+      background-color: white;
+      margin: 0 25px 25px 0;
+      transition: left .35s ease, top .35s ease;
+      box-sizing: border-box;
+    }
+
+    ul.grid li.grid-item .image {
+      background-size: cover;
+      vertical-align: top;
+      height: 160px;
+      max-height: 160px;
+      width: 100%;
+      background-position: 50% 50%;
+      background-repeat: no-repeat no-repeat;
+    }
+
+    ul.grid li.grid-item .title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      line-height: 28px;
+      background-color: #fff;
+      border-top: 1px solid #E0E0E0;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 30px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tartare</h1>
+    <h4>An awesome way to render mixed content in a responsive grid</h4>
+  </header>
+
+  <section>
+    <div class="form-control" id="range-selector">
+      <label for="range">
+        Container width :
+        <span id="range-value">100%</span>
+        <input type="range"
+           min="0"
+           max="100"
+           step="5"
+           value="100">
+      </label>
+
+    </div>
+
+  </section>
+
+  <section class="grid-example">
+    <ul class="grid clearfix"></ul>
+  </section>
+
+<!--   <footer>
+    Author : Pierre Renaudin
+  </footer> -->
+
+
+</body>
+</html>

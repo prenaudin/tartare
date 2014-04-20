@@ -1,0 +1,28 @@
+{
+  "name": "tartare",
+  "title": "Tartare - An awesome way to render mixed content in a responsive grid",
+  "description": "Display a grid of element and handle the resize of it",
+  "version": "0.1.0",
+  "homepage": "https://github.com/prenaudin/tartare.git",
+  "author": {
+    "name": "Pierre Renaudin",
+    "url": "https://github.com/prenaudin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prenaudin/tartare.git"
+  },
+  "bugs": "https://github.com/prenaudin/tartare/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0"
+  },
+  "keywords": [
+    "jquery-plugin"
+  ]
+}
