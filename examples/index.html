@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <title>Tartare - An awesome way to render mixed content in a responsive grid Test Suite</title>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
   <!-- jQuery. -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1-beta1/jquery.js"></script>
   <!-- Load local lib and tests. -->
@@ -12,57 +14,95 @@
   <script>
     var items = [
       {
-        text: 'Foot',
-        image: 'http://distilleryimage2.s3.amazonaws.com/114b9722c87d11e380e00002c954e192_8.jpg'
-      },
-      {
-        text: 'Darwin',
+        title: 'Darwin',
         image: 'http://distilleryimage6.s3.amazonaws.com/af526f98c7c111e386540002c9d4e906_6.jpg'
       },
       {
-        text: 'Clothes',
+        title: 'Clothes',
         image: 'http://origincache-prn.fbcdn.net/924314_256586044524096_1484980217_a.jpg'
       },
       {
-        text: 'The Road to SF',
+        title: 'The Road to SF',
         image: 'http://distilleryimage4.s3.amazonaws.com/f110530aac3c11e3a805125842f3867c_6.jpg'
       },
       {
-        text: 'Italia',
+        title: 'Hot Cross Bun',
+        html : '<div class="caption-title">Hot Cross Bun recipe</div><div class="caption-description">Traditional spiced, sticky glazed fruit buns with pastry crosses. Served as a classic Easter treat, the buns can also be enjoyed at any time of year.</div>',
+      },
+      {
+        title: 'Roast Leg of Lamb with Rosemary',
+        html : '<div class="caption-title">Roast Leg of Lamb with Rosemary</div><div class="caption-description">This leg of lamb is marinated overnight with fresh rosemary, garlic, mustard, honey and lemon zest. Be prepared for many requests for seconds!</div>',
+        image: 'http://images.media-allrecipes.com/userphotos/140x140/00/38/19/381973.jpg'
+      },
+      {
+        title: 'love.zip',
+        icon: 'heart-o'
+      },
+      {
+        title: 'Italia',
         image: 'http://distilleryimage2.s3.amazonaws.com/fdc03546ad1f11e394f212fe06fbf87e_6.jpg'
       },
       {
-        text: 'Cat',
+        title: 'Productive Routine',
+        html : '<div class="caption-title">Productive Routine</div><div class="caption-description">Costello\'s methodical modus operandi includes ironclad alibis involving his lover, Jane (Nathalie Delon). Having carried out a contract on a nightclub owner, he is seen leaving the scene by several witnesses, including piano player Valérie (Cathy Rosier). Their statements are inconsistent but the investigating officer (François Périer) believes Costello is his man.</div>',
+        image: 'https://www.evernote.com/shard/s37/sh/83c744f5-b3c8-4018-b010-1d87ebd2595a/099d9c6ba464bdd066d459bc2f68ec5c/thm/note/83c744f5-b3c8-4018-b010-1d87ebd2595a'
+      },
+      {
+        title: 'Brilliant ideas',
+        html : '<div class="caption-title">Brilliant ideas</div><div class="caption-description">Costello\'s methodical modus operandi includes ironclad alibis involving his lover, Jane (Nathalie Delon). Having carried out a contract on a nightclub owner, he is seen leaving the scene by several witnesses, including piano player Valérie (Cathy Rosier). Their statements are inconsistent but the investigating officer (François Périer) believes Costello is his man.</div>',
+        image: 'https://www.evernote.com/shard/s37/sh/83c744f5-b3c8-4018-b010-1d87ebd2595a/099d9c6ba464bdd066d459bc2f68ec5c/thm/note/83c744f5-b3c8-4018-b010-1d87ebd2595a'
+      },
+      {
+        title: 'Cat',
         image: 'http://distilleryimage8.s3.amazonaws.com/7b4478a06f1411e3b4cb0a0d88bf3520_6.jpg'
       },
       {
-        text: 'Azendoo',
+        title: 'slides-about-tartare.pptx',
+        icon: 'file-text-o'
+      },
+      {
+        title: 'Azendoo',
         image: 'http://distilleryimage8.s3.amazonaws.com/62a2f416b74e11e39abd12c1b09be448_8.jpg'
       },
       {
-        text: 'Whisky',
+        title: 'Whisky',
         image: 'http://distilleryimage7.s3.amazonaws.com/5c267d304f1411e3aecf0ac913b3a2f4_6.jpg'
       },
       {
-        text: 'Steak',
+        title: 'Meeting notes',
+        html : '<div class="caption-title">Meetings note 6th November</div><div class="caption-description">Costello\'s methodical modus operandi includes ironclad alibis involving his lover, Jane (Nathalie Delon). Having carried out a contract on a nightclub owner, he is seen leaving the scene by several witnesses, including piano player Valérie (Cathy Rosier). Their statements are inconsistent but the investigating officer (François Périer) believes Costello is his man.</div>',
+        image: 'https://www.evernote.com/shard/s37/sh/83c744f5-b3c8-4018-b010-1d87ebd2595a/099d9c6ba464bdd066d459bc2f68ec5c/thm/note/83c744f5-b3c8-4018-b010-1d87ebd2595a'
+      },
+      {
+        title: 'Steak',
         image: 'http://distilleryimage10.s3.amazonaws.com/224bddc6abb211e3870f1228c6f2a262_6.jpg'
       },
       {
-        text: 'DEVELOPER',
-        image: 'http://origincache-prn.fbcdn.net/1172000_701055653274694_901094109_a.jpg'
+        title: 'profile-picture.png',
+        icon: 'picture-o'
       },
       {
-        text: 'Ribs',
-        image: 'http://distilleryimage2.s3.amazonaws.com/0b56d7c2b13b11e3b1521292f891e046_6.jpg'
+        title: 'DEVELOPER',
+        image: 'http://origincache-prn.fbcdn.net/1172000_701055653274694_901094109_a.jpg'
       }
     ];
 
     var itemTemplate = function(obj){
       str  = '<li class="grid-item">';
-      if(obj.image) {
+
+      if(obj.icon) {
+        str += "<div class=\"icon-container\"><i class=\"fa fa-" + obj.icon + "\"/></div>";
+      }
+      else if (obj.html) {
+        if(obj.image) {
+          str += "<div class=\"caption\" style='background-image:url(\"" + obj.image +"\")'></div>";
+        };
+        str += obj.html;
+      }
+      else if(obj.image) {
         str += "<div class=\"image\" style='background-image:url(\"" + obj.image +"\")'></div>";
       };
-      str += "<div class=\"title\">" + obj.text + "</div>";
+      str += "<div class=\"title\">" + obj.title + "</div>";
       str += '</li>';
 
       return str;
@@ -149,6 +189,7 @@
       margin: 0 25px 25px 0;
       transition: left .35s ease, top .35s ease;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     ul.grid li.grid-item .image {
@@ -172,6 +213,37 @@
       border-top: 1px solid #E0E0E0;
       text-align: center;
       font-weight: 600;
+    }
+
+    .caption {
+      position: relative;
+      top: 5px;
+      left: 5px;
+      width: 70px;
+      height: 70px;
+      display: inline-block;
+      background-size: 70px;
+      float: left;
+      margin: 5px 10px 0px 5px;
+    }
+
+    .caption-title {
+      font-size: 13px;
+      padding: 5px 10px;
+      color: #1e8cf6;
+    }
+
+    .caption-description {
+      font-size: 11px;
+      padding: 0 10px;
+      color: #aaa;
+    }
+
+    .icon-container {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 40px;
+      color: #FF0000;
     }
 
     footer {
