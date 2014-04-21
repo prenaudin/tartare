@@ -1,31 +1,32 @@
-# Tartare - An awesome way to render mixed content in a responsive grid
+![](https://raw.github.com/prenaudin/tartare/master/examples/assets/tartare-logo.png)
+### An awesome way to render mixed content in a responsive grid
 
 Display a grid of element and handle the resize of it
 
-## Getting Started
+![](https://raw.github.com/prenaudin/tartare/master/examples/assets/tartare-video-example.gif)
 
-Download the [production version][min] or the [development version][max].
+### Getting Started
 
-[min]: https://raw.github.com/prenaudin/jquery-tartare/master/dist/jquery.tartare.min.js
-[max]: https://raw.github.com/prenaudin/jquery-tartare/master/dist/jquery.tartare.js
+Download the [production version][src].
+[src]: https://raw.github.com/prenaudin/tartare/master/src/tartare.js
 
 In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/tartare.min.js"></script>
+<script src="src/tartare.js"></script>
 <script>
 jQuery(function($) {
-  $.awesome(); // "awesome"
+  $('#my-grid').tartare(); // "awesome"
 });
 </script>
 ```
 
-## Documentation
+### Documentation
 _(Coming soon)_
 
-## Examples
+### Examples
 _(Coming soon)_
 
-## Release History
-_(Nothing yet)_
+### Author
+Made with love by Pierre Renaudin

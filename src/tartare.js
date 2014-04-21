@@ -113,10 +113,6 @@
       if (!data) $this.data('tartare', (data = new Tartare(this, options)))
       if (typeof option == 'string') data[option]()
     })
-
-    // $(window).resize(function(){
-    //   sizeGrid($containerEl, $els, options);
-    // });
   };
 
   $.fn.tartare.Constructor = Tartare

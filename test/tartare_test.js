@@ -42,4 +42,11 @@
     ok(!!$.fn.tartare.Constructor.DEFAULTS, 'defaults is defined')
   })
 
+  test('should destroy tartare', function () {
+    var tartare = $('<div/>').tartare()
+    ok(tartare.data('tartare'), 'tartare has data')
+    tartare.tartare('destroy')
+    ok(!$._data(tartare), 'tartare does not have data')
+  })
+
 }(jQuery));
