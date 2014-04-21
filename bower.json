@@ -1,9 +1,31 @@
 {
   "name": "tartare",
+  "description": "An awesome way to render mixed content in a responsive grid.",
   "version": "0.1.0",
-  "dependencies": {},
+  "keywords": [
+    "js",
+    "jquery",
+    "grid",
+    "responsive",
+    "front-end",
+    "library",
+    "web"
+  ],
+  "homepage": "http://prenaudin.github.com/tartare/examples",
+  "main": [
+    "src/tartare.js"
+  ],
+  "ignore": [
+    ".*",
+    "examples",
+    "test",
+    "Gruntfile.js"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  },
   "devDependencies": {
     "qunit": "~1.12.0",
-    "jquery": "~2.1.0"
+    "jquery": ">= 1.9.0"
   }
 }
