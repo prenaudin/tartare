@@ -43,7 +43,7 @@ $('#my-grid').tartare('refresh') // forces the grid to recompute
 $('#my-grid').tartare('destroy') // destroys tartare
 ```
 
-Add some CSS for lovely transitions (not included in this plugin) :
+Add some CSS for lovely transitions (not included in this plugin, the transitions not the love) :
 ```css
 ul li.grid-item {
   transition: left .35s ease, top .35s ease;
