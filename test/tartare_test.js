@@ -20,43 +20,26 @@
       throws(block, [expected], [message])
   */
 
-  module('jQuery#awesome', {
-    // This will run before each test in this module.
-    setup: function() {
-      this.elems = $('#qunit-fixture').children();
-    }
-  });
+  module('tartare');
 
-  test('is chainable', function() {
-    expect(1);
-    // Not a bad test to run on collection methods.
-    strictEqual(this.elems.awesome(), this.elems, 'should be chainable');
-  });
+  test('should provide no conflict', function () {
+    var tartare = $.fn.tartare.noConflict()
+    ok(!$.fn.tartare, 'tartare was set back to undefined (org value)')
+    $.fn.tartare = tartare
+  })
 
-  test('is awesome', function() {
-    expect(1);
-    strictEqual(this.elems.awesome().text(), 'awesome0awesome1awesome2', 'should be awesome');
-  });
+  test('should be defined on jquery object', function () {
+    var div = $('<div></div>')
+    ok(div.tartare, 'tartare method is defined')
+  })
 
-  module('jQuery.awesome');
+  test('should return element', function () {
+    var div = $('<div></div>')
+    ok(div.tartare() == div, 'document.body returned')
+  })
 
-  test('is awesome', function() {
-    expect(2);
-    strictEqual($.awesome(), 'awesome.', 'should be awesome');
-    strictEqual($.awesome({punctuation: '!'}), 'awesome!', 'should be thoroughly awesome');
-  });
-
-  module(':awesome selector', {
-    // This will run before each test in this module.
-    setup: function() {
-      this.elems = $('#qunit-fixture').children();
-    }
-  });
-
-  test('is awesome', function() {
-    expect(1);
-    // Use deepEqual & .get() when comparing jQuery objects.
-    deepEqual(this.elems.filter(':awesome').get(), this.elems.last().get(), 'knows awesome when it sees it');
-  });
+  test('should expose default settings', function () {
+    ok(!!$.fn.tartare.Constructor.DEFAULTS, 'defaults is defined')
+  })
 
 }(jQuery));
