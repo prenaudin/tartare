@@ -17,20 +17,25 @@
     this.options    =
     this.$element   = null
 
+    // set to true to enable debug
+    this.debug = true
+
+    // internal grid status
+    this.left         = 0
+    this.top          = 0
+    this.rows         = 0
+    this.columns      = 0
+    this.numberPerRow = null
+    this.itemHeight   = null
+    this.itemWidth    = null
+
     this.init('tartare', element, options)
   }
 
    Tartare.DEFAULTS = {
-    left         : 0,
-    top          : 0,
     minwidth     : 250,
     gutter       : 15,
-    rows         : 0,
-    columns      : 0,
-    itemSelector : '.grid-item',
-    numberPerRow : null,
-    itemHeight   : null,
-    itemWidth    : null
+    itemSelector : '.grid-item'
   }
 
   Tartare.prototype.init = function (type, element, options) {
@@ -56,41 +61,44 @@
   }
 
   Tartare.prototype.compute = function () {
+    if (this.debug) console.time('Tartare - compute')
     var containerWidth   = this.$element.width()
-    this.options.numberPerRow = Math.floor((containerWidth + this.options.gutter) / (this.options.minwidth + this.options.gutter)) + 1
-    this.options.itemWidth    = Math.floor((containerWidth + this.options.gutter) / this.options.numberPerRow - this.options.gutter)
+    this.numberPerRow = Math.floor((containerWidth + this.options.gutter) / (this.options.minwidth + this.options.gutter)) + 1
+    this.itemWidth    = Math.floor((containerWidth + this.options.gutter) / this.numberPerRow - this.options.gutter)
 
     var that = this
     this.$items.each(function(i, el){
       that.append(i, el)
     })
 
-    var rows = Math.ceil(this.$items.length/this.options.numberPerRow)
-    var containerHeight = rows * ( this.options.itemHeight + this.options.gutter )
+    var rows = Math.ceil(this.$items.length/this.numberPerRow)
+    var containerHeight = rows * ( this.itemHeight + this.options.gutter )
     this.$element.css('height', containerHeight + 'px')
+    if (this.debug) console.timeEnd('Tartare - compute')
   }
 
   Tartare.prototype.append = function (i, el) {
-    var column = i%this.options.numberPerRow + 1
-    var row    = Math.floor(i/this.options.numberPerRow)
+    var column = i%this.numberPerRow + 1
+    var row    = Math.floor(i/this.numberPerRow)
     var margin = 0
-    if((i + 1) % this.options.numberPerRow !== 0){
+    if((i + 1) % this.numberPerRow !== 0){
       margin = this.options.gutter
     }
-    this.options.itemHeight = $(el).height()
+    this.itemHeight = this.itemHeight || $(el).height()
 
-    this.options.left   = (column - 1) * (this.options.itemWidth + this.options.gutter)
-    this.options.top    = (row) * ( this.options.itemHeight + this.options.gutter )
+    this.left   = (column - 1) * (this.itemWidth + this.options.gutter)
+    this.top    = (row) * ( this.itemHeight + this.options.gutter )
 
     $(el).css({
-      'width'        : this.options.itemWidth + 'px',
-      'left'         : this.options.left + 'px',
-      'top'          : this.options.top + 'px',
+      'width'        : this.itemWidth + 'px',
+      'left'         : this.left + 'px',
+      'top'          : this.top + 'px',
       'position'     : 'absolute'
     })
   }
 
   Tartare.prototype.refresh = function () {
+    delete this.itemHeight
     this.compute()
   }
 
