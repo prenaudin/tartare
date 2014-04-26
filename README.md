@@ -33,7 +33,7 @@ Call tartare with customisable options to suit your needs :
 $('#my-grid').tartare(
   itemSelector : ".grid-item", // selector to find the grid elements  
   gutter       : 15,           // gutter to add between the grid elements, in pixels
-  minwidth     : 250           // minimum width for the grid elements, in pixels
+  maxwidth     : 250           // maximum width for the grid elements, in pixels
   )
 ```
 
@@ -43,10 +43,16 @@ $('#my-grid').tartare('refresh') // forces the grid to recompute
 $('#my-grid').tartare('destroy') // destroys tartare
 ```
 
+If you need to append or prepend items, use these methods :
+```javascript
+$('#my-grid').tartare('append', $el)
+$('#my-grid').tartare('prepend', $el)
+```
+
 Add some CSS for lovely transitions (not included in this plugin, the transitions not the love) :
 ```css
 ul li.grid-item {
-  transition: left .35s ease, top .35s ease;
+  transition: left .35s ease, top .35s ease, width .35s ease;
 }
 ```
 

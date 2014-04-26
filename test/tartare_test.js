@@ -25,7 +25,7 @@
   var defaultOptions = {
     numberItems    : 6,
     gutter         : 15,
-    minwidth       : 200,
+    maxwidth       : 200,
     containerWidth : 630,
     itemSelector   : 'li',
     itemHeight     : 30
@@ -44,7 +44,7 @@
   var checkItemsPositions = function(positions){
     for ( var p = 0; p < positions.length; p++){
       var item = $($('#qunit-fixture ul li').get(p))
-      console.log(positions[p], $($('#qunit-fixture ul li').get(p)).position());
+      // console.log(positions[p], $($('#qunit-fixture ul li').get(p)).position());
       if(item.position().left !== positions[p].left || item.position().top !== positions[p].top ) return false
     }
     return true
@@ -73,7 +73,7 @@
   test('should render a grid by maximizing the width #1', function(){
     generateGrid()
     ok(checkItemsPositions(
-      [{ left:0, top: 0}, {left: 215, top: 0}, {left: 430, top: 0}, {left: 0, top: 45}, {left: 215, top: 45}, {left: 430, top: 45}]
+      [{ left:0, top: 0}, {left: 161, top: 0}, {left: 322, top: 0}, {left: 483, top: 0}, {left: 0, top: 45}, {left: 161, top: 45}]
     ), 'grid is correctly rendered')
   })
 
@@ -81,13 +81,6 @@
     generateGrid({numberItems: 1})
     ok(checkItemsPositions(
       [{ left:0, top: 0}]
-    ), 'grid is correctly rendered')
-  })
-
-  test('should render a grid by maximizing the width #3', function(){
-    generateGrid()
-    ok(checkItemsPositions(
-      [{ left:0, top: 0}, {left: 215, top: 0}, {left: 430, top: 0}, {left: 0, top: 45}, {left: 215, top: 45}, {left: 430, top: 45}]
     ), 'grid is correctly rendered')
   })
 

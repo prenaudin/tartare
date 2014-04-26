@@ -9,6 +9,31 @@
 +function ($) {
   'use strict';
 
+  // UTILITIES methods
+  var throttle = function (fn, threshhold, scope) {
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+      var context = scope || this;
+
+      var now = +new Date(),
+          args = arguments;
+      if (last && now < last + threshhold) {
+        // hold on to it
+        clearTimeout(deferTimer);
+        deferTimer = setTimeout(function () {
+          last = now;
+          fn.apply(context, args);
+        }, threshhold);
+      } else {
+        last = now;
+        fn.apply(context, args);
+      }
+    };
+  }
+
+
   // TARTARE PUBLIC CLASS DEFINITION
   // ===============================
 
@@ -21,19 +46,22 @@
     this.debug = true
 
     // internal grid status
-    this.left         = 0
-    this.top          = 0
-    this.rows         = 0
-    this.columns      = 0
-    this.numberPerRow = null
-    this.itemHeight   = null
-    this.itemWidth    = null
+    this.left          = 0
+    this.top           = 0
+    this.rows          = 0
+    this.columns       = 0
+    this.numberPerRow  = null
+    this.itemHeight    = null
+    this.itemWidth     = null
+    this.currentColumn = 0
+    this.currentRow    = 0
+    this.currentIndex  = 0
 
     this.init('tartare', element, options)
   }
 
    Tartare.DEFAULTS = {
-    minwidth     : 250,
+    maxwidth     : 250,
     gutter       : 15,
     itemSelector : '.grid-item'
   }
@@ -42,13 +70,17 @@
     this.type      = type
     this.$element  = $(element)
     this.options   = this.getOptions(options)
-    this.$items    = this.$element.find(this.options.itemSelector)
+    this.initItems()
     this.compute()
 
     var that = this
-    $(window).on('resize.tartare', function(){
+    $(window).on('resize.tartare', throttle(function(){
        that.refresh()
-    })
+    }, 200))
+  }
+
+  Tartare.prototype.initItems = function() {
+    this.$items = this.$element.find(this.options.itemSelector)
   }
 
   Tartare.prototype.getDefaults = function () {
@@ -56,19 +88,21 @@
   }
 
   Tartare.prototype.getOptions = function (options) {
+    if(!options) options = this.options
     options = $.extend({}, this.getDefaults(), options)
     return options
   }
 
-  Tartare.prototype.compute = function () {
+  Tartare.prototype.compute = function (startIndex) {
     if (this.debug) console.time('Tartare - compute')
-    var containerWidth   = this.$element.width()
-    this.numberPerRow = Math.floor((containerWidth + this.options.gutter) / (this.options.minwidth + this.options.gutter)) + 1
-    this.itemWidth    = Math.floor((containerWidth + this.options.gutter) / this.numberPerRow - this.options.gutter)
+    this.currentIndex  = startIndex ? startIndex : 0
+    var containerWidth = this.$element.width()
+    this.numberPerRow  = Math.floor((containerWidth + this.options.gutter) / (this.options.maxwidth + this.options.gutter)) + 1
+    this.itemWidth     = Math.floor((containerWidth + this.options.gutter) / this.numberPerRow - this.options.gutter)
 
     var that = this
     this.$items.each(function(i, el){
-      that.append(i, el)
+      that.place(el)
     })
 
     var rows = Math.ceil(this.$items.length/this.numberPerRow)
@@ -77,11 +111,12 @@
     if (this.debug) console.timeEnd('Tartare - compute')
   }
 
-  Tartare.prototype.append = function (i, el) {
-    var column = i%this.numberPerRow + 1
-    var row    = Math.floor(i/this.numberPerRow)
+  Tartare.prototype.place = function (el, index) {
+    index = index !== undefined ? index : this.currentIndex
+    var column = index%this.numberPerRow + 1
+    var row    = Math.floor(index/this.numberPerRow)
     var margin = 0
-    if((i + 1) % this.numberPerRow !== 0){
+    if((index + 1) % this.numberPerRow !== 0){
       margin = this.options.gutter
     }
     this.itemHeight = this.itemHeight || $(el).height()
@@ -95,6 +130,21 @@
       'top'          : this.top + 'px',
       'position'     : 'absolute'
     })
+    this.currentIndex++
+  }
+
+  Tartare.prototype.append = function(el) {
+    this.place(el)
+    this.$element.append(el)
+    this.initItems()
+  }
+
+  Tartare.prototype.prepend = function(el) {
+    // debugger
+    this.place(el, 0)
+    this.compute(1)
+    this.$element.prepend(el)
+    this.initItems()
   }
 
   Tartare.prototype.refresh = function () {
@@ -111,7 +161,7 @@
   // =========================
   var old = $.fn.tartare
 
-  $.fn.tartare = function (option) {
+  $.fn.tartare = function (option, params) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('tartare')
@@ -119,7 +169,7 @@
 
       if (!data && option == 'destroy') return
       if (!data) $this.data('tartare', (data = new Tartare(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option](params)
     })
   };
 
