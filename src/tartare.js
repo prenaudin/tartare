@@ -33,7 +33,6 @@
     };
   }
 
-
   // TARTARE PUBLIC CLASS DEFINITION
   // ===============================
 
@@ -42,19 +41,13 @@
     this.options    =
     this.$element   = null
 
-    // set to true to enable debug
-    this.debug = true
-
     // internal grid status
     this.left          = 0
     this.top           = 0
     this.rows          = 0
     this.columns       = 0
     this.numberPerRow  = null
-    this.itemHeight    = null
     this.itemWidth     = null
-    this.currentColumn = 0
-    this.currentRow    = 0
     this.currentIndex  = 0
 
     this.init('tartare', element, options)
@@ -63,15 +56,16 @@
    Tartare.DEFAULTS = {
     maxwidth     : 250,
     gutter       : 15,
-    itemSelector : '.grid-item'
+    itemSelector : '.grid-item',
+    height       : null
   }
 
   Tartare.prototype.init = function (type, element, options) {
-    this.type      = type
-    this.$element  = $(element)
-    this.options   = this.getOptions(options)
-    this.initItems()
-    this.compute()
+    this.type       = type
+    this.$element   = $(element)
+    this.options    = this.getOptions(options)
+    this.itemHeight = this.options.height
+    this.refresh()
 
     var that = this
     $(window).on('resize.tartare', throttle(function(){
@@ -93,25 +87,30 @@
     return options
   }
 
-  Tartare.prototype.compute = function (startIndex) {
-    if (this.debug) console.time('Tartare - compute')
-    this.currentIndex  = startIndex ? startIndex : 0
+  Tartare.prototype.getItemHeight = function (el) {
+    return this.itemHeight || this.options.height || $(el).height()
+  }
+
+  Tartare.prototype.compute = function () {
     var containerWidth = this.$element.width()
     this.numberPerRow  = Math.floor((containerWidth + this.options.gutter) / (this.options.maxwidth + this.options.gutter)) + 1
     this.itemWidth     = Math.floor((containerWidth + this.options.gutter) / this.numberPerRow - this.options.gutter)
-
-    var that = this
-    this.$items.each(function(i, el){
-      that.place(el)
-    })
+    this.itemHeight    = this.getItemHeight()
 
     var rows = Math.ceil(this.$items.length/this.numberPerRow)
     var containerHeight = rows * ( this.itemHeight + this.options.gutter )
     this.$element.css('height', containerHeight + 'px')
-    if (this.debug) console.timeEnd('Tartare - compute')
   }
 
-  Tartare.prototype.place = function (el, index) {
+  Tartare.prototype.placeItems = function (startIndex) {
+    this.currentIndex  = startIndex ? startIndex : 0
+    var that = this
+    this.$items.each(function(i, el){
+      that.place(el)
+    })
+  }
+
+  Tartare.prototype.place = function (el, index) {
     index = index !== undefined ? index : this.currentIndex
     var column = index%this.numberPerRow + 1
     var row    = Math.floor(index/this.numberPerRow)
@@ -119,16 +118,17 @@
     if((index + 1) % this.numberPerRow !== 0){
       margin = this.options.gutter
     }
-    this.itemHeight = this.itemHeight || $(el).height()
+
+    this.itemHeight = this.getItemHeight(el)
 
     this.left   = (column - 1) * (this.itemWidth + this.options.gutter)
     this.top    = (row) * ( this.itemHeight + this.options.gutter )
 
     $(el).css({
-      'width'        : this.itemWidth + 'px',
-      'left'         : this.left + 'px',
-      'top'          : this.top + 'px',
-      'position'     : 'absolute'
+      'width'    : this.itemWidth + 'px',
+      'left'     : this.left + 'px',
+      'top'      : this.top + 'px',
+      'position' : 'absolute'
     })
     this.currentIndex++
   }
@@ -137,22 +137,25 @@
     this.place(el)
     this.$element.append(el)
     this.initItems()
-  }
-
-  Tartare.prototype.prepend = function(el) {
-    // debugger
-    this.place(el, 0)
-    this.compute(1)
-    this.$element.prepend(el)
-    this.initItems()
-  }
-
-  Tartare.prototype.refresh = function () {
-    delete this.itemHeight
     this.compute()
   }
 
-  Tartare.prototype.destroy = function () {
+  Tartare.prototype.prepend = function(el) {
+    this.place(el, 0)
+    this.$element.prepend(el)
+    this.compute()
+    this.placeItems(1)
+    this.initItems()
+  }
+
+  Tartare.prototype.refresh = function () {
+    delete this.itemHeight
+    this.initItems()
+    this.compute()
+    this.placeItems()
+  }
+
+  Tartare.prototype.destroy = function () {
     $(window).off('resize.tartare')
     this.$element.off('.' + this.type).removeData(this.type)
   }
