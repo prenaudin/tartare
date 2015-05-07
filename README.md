@@ -7,7 +7,7 @@ the library just maximizes the widths of elements of the same height.
 Go play with your perfect grids and make Josef Müller-Brockmann proud !
 
 ![Example video](https://raw.github.com/prenaudin/tartare/master/examples/assets/tartare-example-video.gif)
-
+ asda d
 ### Getting Started
 
 Grab your tartare in one of these magic ways :
