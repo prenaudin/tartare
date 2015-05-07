@@ -15,6 +15,9 @@ Grab your tartare in one of these magic ways :
 - Clone the repo: `git clone https://github.com/prenaudin/tartare.git`.
 - Install with [Bower](http://bower.io): `bower install tartare`.
 
+* [ ] foo
+* [x] bar
+* [ ] baz
 
 In your web page:
 ```html
